@@ -1,0 +1,175 @@
+﻿<UserControl x:Class="BeATrueCowboy.Controls.SideToggleControl"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+		xmlns:local="clr-namespace:BeATrueCowboy.Controls"
+		xmlns:sysWin="clr-namespace:System.Windows;assembly=PresentationFramework"
+		xmlns:system="clr-namespace:System;assembly=mscorlib"
+		mc:Ignorable="d" 
+		d:DesignHeight="75"
+		d:DesignWidth="160">
+
+	<UserControl.Resources>
+
+		<system:Double x:Key="ControlDoubleHeight">75</system:Double>
+		<system:Double x:Key="ControlDoubleWidth">160
+		</system:Double>
+
+		<system:Double x:Key="ImageSide">48</system:Double>
+		<Style x:Key="ImageStyle" TargetType="Image">
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="Width" Value="{StaticResource ImageSide}" />
+			<Setter Property="Height" Value="{StaticResource ImageSide}" />
+			<Setter Property="Margin" Value="0,4,0,0" />
+		</Style>
+
+		<Brush x:Key="ActiveControlLabelForeground">#601C21</Brush>
+		<Brush x:Key="InactiveControlLabelForeground">#261F16</Brush>
+		<FontFamily x:Key="LabelFontFamily">
+			pack://application:,,,/Resources/#Regulators
+		</FontFamily>
+
+		<Style x:Key="LabelStyle" TargetType="Label">
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="FontFamily" Value="{StaticResource LabelFontFamily}" />
+			<Setter Property="FontSize" Value="14" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="0" />
+		</Style>
+		<Style x:Key="NormalLabelStyle"
+					TargetType="Label"
+					BasedOn="{StaticResource LabelStyle}">
+			<Setter Property="FontSize" Value="14" />
+			<Setter Property="Margin" Value="0" />
+		</Style>
+		<Style x:Key="TightLabelStyle"
+					TargetType="Label"
+					BasedOn="{StaticResource LabelStyle}">
+			<Setter Property="FontSize" Value="13" />
+			<Setter Property="Margin" Value="0,-1,0,0" />
+		</Style>
+
+		<Style x:Key="ControlBorderStyle" TargetType="Border">
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="Height" Value="{StaticResource ControlDoubleHeight}" />
+			<Setter Property="Width" Value="{StaticResource ControlDoubleWidth}" />
+		</Style>
+		<Style x:Key="ActiveControlBorderStyle"
+				TargetType="Border"
+				BasedOn="{StaticResource ControlBorderStyle}">
+			<Setter Property="CornerRadius" Value="10,0,0,10" />
+			<Setter Property="BorderBrush">
+				<Setter.Value>
+					<LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+						<GradientStop Color="#705D42" Offset="0"/>
+						<GradientStop Color="Transparent" Offset="1"/>
+					</LinearGradientBrush>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="BorderThickness" Value="4,1,0,2" />
+		</Style>
+		<Style x:Key="InactiveControlBorderStyle"
+				TargetType="Border"
+				BasedOn="{StaticResource ControlBorderStyle}">
+			<Setter Property="CornerRadius" Value="0,10,10,0" />
+			<Setter Property="BorderBrush" Value="#443928" />
+			<Setter Property="BorderThickness" Value="0,1,4,1" />
+		</Style>
+
+		<ControlTemplate x:Key="ActiveControlTemplate"
+				TargetType="local:LabeledImageDataControl">
+
+			<Border Style="{StaticResource ActiveControlBorderStyle}" >
+
+			<StackPanel>
+				<Image Style="{TemplateBinding ImageStyle}"
+						Source="{TemplateBinding ImageSource}" />
+				<Label Style="{TemplateBinding LabelStyle}"
+						Content="{TemplateBinding LabelContent}"
+						Foreground="{StaticResource ActiveControlLabelForeground}"/>
+			</StackPanel>
+				
+			</Border>
+		</ControlTemplate>
+
+		<ControlTemplate x:Key="InactiveControlTemplate"
+				TargetType="local:LabeledImageDataControl">
+
+			<Border Style="{StaticResource InactiveControlBorderStyle}" >
+
+				<Border.Background>
+					<LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+						<GradientStop Color="#FF967D5B" Offset="0" />
+						<GradientStop Color="#FFAA8D66" Offset="0.025"/>
+						<GradientStop Color="#FFC9A776" Offset="0.07"/>
+						<GradientStop Color="#CCD6B07E" Offset="0.5" />
+						<GradientStop Color="#77D3AF7C" Offset="1" />
+					</LinearGradientBrush>
+				</Border.Background>
+
+				<StackPanel>
+					<Image Style="{TemplateBinding ImageStyle}"
+							Source="{TemplateBinding ImageSource}" />
+					<Label Style="{TemplateBinding LabelStyle}"
+							Content="{TemplateBinding LabelContent}"
+							Foreground="{StaticResource InactiveControlLabelForeground}"/>
+				</StackPanel>
+
+			</Border>
+		</ControlTemplate>
+
+		<BitmapImage x:Key="TestActive"
+				UriSource="/BeATrueCowboy;component/Resources/Cow.png" />
+		<BitmapImage x:Key="TestInactive"
+				UriSource="/BeATrueCowboy;component/Resources/CowInactive.png" />
+
+	</UserControl.Resources>
+
+	<StackPanel
+			Width="{StaticResource ControlDoubleWidth}"
+			Height="{StaticResource ControlDoubleHeight}"
+			Margin="0">
+
+		<local:LabeledImageDataControl
+				x:Name="ActiveToggle"
+				ImageStyle="{StaticResource ImageStyle}"
+				LabelStyle="{StaticResource NormalLabelStyle}"
+				Template="{StaticResource ActiveControlTemplate}"
+				ImageSource="{StaticResource TestActive}"
+				LabelContent="Test Active"/>
+				<!--
+				ImageSource="{Binding ActiveImageSource}"
+				LabelContent="{Binding LabelContent}"
+				LabelStyle="{Binding LabelStyle}" -> LabelIsTaight
+				-->
+
+		<local:LabeledImageDataControl
+				x:Name="InactiveToggle"
+				ImageStyle="{StaticResource ImageStyle}"
+				LabelStyle="{StaticResource NormalLabelStyle}"
+				Template="{StaticResource InactiveControlTemplate}"
+				ImageSource="{StaticResource TestInactive}"
+				LabelContent="Text Inactive"/>
+				<!--
+				ImageSource="{Binding InactiveImageSource}"
+				LabelContent="{Binding LabelContent}"
+				LabelStyle="{Binding LabelStyle}" -> LabelIsTaight
+				-->
+
+		<local:SimpleToggleControl
+				x:Name="ToggleObject"
+				ActiveStateUIElement ="{Binding ElementName=ActiveToggle}"
+				InactiveStateUIElement ="{Binding ElementName=InactiveToggle}"
+				Checked="OnToggleObjectChecked"/>
+				<!--
+				GroupIndex="{Binding GroupIndex}"
+				IsChecked="{Binding IsChecked}"
+				IsAvailable="{Binding IsAvailable}"
+				AssociatedUIElement="{Binding AssociatedUIElement}"
+				-->
+
+	</StackPanel>
+
+</UserControl>

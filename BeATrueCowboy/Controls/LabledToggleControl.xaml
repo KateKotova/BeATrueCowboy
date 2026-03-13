@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="BeATrueCowboy.Controls.LabledToggleControl"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+		xmlns:local="clr-namespace:BeATrueCowboy.Controls"
+		xmlns:system="clr-namespace:System;assembly=mscorlib"
+		mc:Ignorable="d"
+		d:DesignHeight="36"
+		d:DesignWidth="480">
+
+	<UserControl.Resources>
+		<system:Double x:Key="ImageSide">30</system:Double>
+
+		<Style x:Key="ImageStyle" TargetType="Image">
+			<Setter Property="Height" Value="{StaticResource ImageSide}" />
+			<Setter Property="Width" Value="{StaticResource ImageSide}" />
+			<Setter Property="Margin" Value="0,5,2,0" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+		</Style>
+
+		<Style x:Key="LabelStyle" TargetType="Label">
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="Foreground" Value="#261F16" />
+			<Setter Property="FontFamily"
+				Value="/BeATrueCowboy;component/Resources/#Western" />
+			<Setter Property="FontSize" Value="21" />
+			<Setter Property="Padding" Value="6,0,0,0" />
+		</Style>
+
+		<BitmapImage x:Key="ActiveTest"
+				UriSource="/BeATrueCowboy;component/Resources/Add.png" />
+		<BitmapImage x:Key="InactiveTest"
+				UriSource="/BeATrueCowboy;component/Resources/AddInactive.png" />
+
+	</UserControl.Resources>
+
+	<StackPanel
+			Orientation="Horizontal"
+			Height="Auto">
+
+		<Image
+				x:Name="ActiveToggle"
+				Style="{StaticResource ImageStyle}"
+				Source="{StaticResource ActiveTest}" />
+				<!--Source="{Binding ActiveImageSource}"-->
+
+		<Image
+				x:Name="InactiveToggle"
+				Style="{StaticResource ImageStyle}"
+				Source="{StaticResource InactiveTest}" />
+				<!--Source="{Binding InactiveImageSource}"-->
+
+		<Label
+				x:Name="LabelObject"
+				Style="{StaticResource LabelStyle}"
+				Content ="Test"/>
+				<!--Content="{Binding LabelContent}"-->
+
+		<local:SimpleToggleControl
+				x:Name="ToggleObject"
+				IsAvailable="True"
+				Checked="OnToggleObjectChecked"
+				ActiveStateUIElement ="{Binding ElementName=ActiveToggle}"
+				InactiveStateUIElement ="{Binding ElementName=InactiveToggle}"
+				AdditionalHitAreaUIElement="{Binding ElementName=LabelObject}"/>
+
+	</StackPanel>
+</UserControl>

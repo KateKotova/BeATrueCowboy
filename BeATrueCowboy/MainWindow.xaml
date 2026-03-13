@@ -1,0 +1,1035 @@
+﻿<Window x:Class="BeATrueCowboy.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:BeATrueCowboy"
+		xmlns:controls="clr-namespace:BeATrueCowboy.Controls"
+		xmlns:sysWin="clr-namespace:System.Windows;assembly=PresentationFramework"
+		xmlns:system="clr-namespace:System;assembly=mscorlib"
+		mc:Ignorable="d"
+		Title="True Cowboy"
+		Height="600"
+		Width="600"
+		AllowsTransparency="True"
+		WindowStyle ="None"
+		Background="Transparent"
+		WindowStartupLocation="CenterScreen">
+
+	<Window.Resources>
+		<Color x:Key="WindowBackgroundColor">#D3AF7C</Color>
+		<Brush x:Key="WindowBackgroundBrush">#D3AF7C</Brush>
+		<Color x:Key="SeperatorColor">#705D42</Color>
+		<Brush x:Key="SeperatorBrush">#705D42</Brush>
+
+		<FontFamily x:Key="HeaderTextFontFamily">Resources/#Regulators</FontFamily>
+		<FontFamily x:Key="NormalTextFontFamily">Resources/#Western</FontFamily>
+		<Brush x:Key="TextForeground">#261F16</Brush>
+		<system:Double x:Key="HeaderTextFontSize1">22</system:Double>
+		<system:Double x:Key="HeaderTextFontSize2">21</system:Double>
+		<system:Double x:Key="NormalTextFontSize1">20</system:Double>
+		<system:Double x:Key="NormalTextFontSize2">18</system:Double>
+
+		<Style x:Key="WindowBorderStyle" TargetType="Border">
+			<Setter Property="Height" Value="Auto" />
+			<Setter Property="Width" Value="Auto" />
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="CornerRadius" Value="10,10,5,5" />
+		</Style>
+		<Style x:Key="WindowBorderWithBackgroundStyle"
+				TargetType="Border"
+				BasedOn="{StaticResource WindowBorderStyle}">
+			<Setter Property="Background"
+					Value="{StaticResource WindowBackgroundBrush}" />
+		</Style>
+		<Style x:Key="WindowBorderWithOutlineStyle"
+				TargetType="Border"
+				BasedOn="{StaticResource WindowBorderStyle}">
+			<Setter Property="BorderBrush" Value="#261F16" />
+			<Setter Property="BorderThickness" Value="2,2,2,4" />
+		</Style>
+		<Style x:Key="WindowBorderMaskStyle" TargetType="Border">
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="CornerRadius" Value="15,15,10,10" />
+			<Setter Property="Background" Value="Black" />
+		</Style>
+		<Style x:Key="ContentBorderStyle" TargetType="Border">
+			<Setter Property="Height" Value="Auto" />
+			<Setter Property="Width" Value="Auto" />
+			<Setter Property="Margin" Value="10,7,10,12" />
+			<Setter Property="Padding" Value="10" />
+			<Setter Property="CornerRadius" Value="2,2,5,5" />
+			<Setter Property="BorderBrush"
+				Value="{StaticResource WindowBackgroundBrush}" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="BorderThickness" Value="1" />
+		</Style>
+		<Style x:Key="StepBorderStyle"
+				TargetType="Border"
+				BasedOn="{StaticResource ContentBorderStyle}">
+			<Setter Property="BorderBrush"
+					Value="{StaticResource WindowBackgroundBrush}" />
+		</Style>
+		<Style x:Key="AbilityBorderStyle"
+				TargetType="Border"
+				BasedOn="{StaticResource ContentBorderStyle}">
+			<Setter Property="BorderBrush">
+				<Setter.Value>
+					<LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+						<GradientStop Color="Transparent" Offset="0"/>
+						<GradientStop Color="{StaticResource WindowBackgroundColor}"
+								Offset="0.5"/>
+					</LinearGradientBrush>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<Style x:Key="DecisionsSeparator" TargetType="Separator">
+			<Setter Property="Margin" Value="0,10,0,-5" />
+			<Setter Property="Height" Value="1" />
+			<Setter Property="Width" Value="Auto" />
+			<Setter Property="Background">
+				<Setter.Value>
+					<LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+						<GradientStop Color="Transparent" Offset="0" />
+						<GradientStop Color="{StaticResource WindowBackgroundColor}"
+								Offset="0.1"/>
+						<GradientStop Color="{StaticResource SeperatorColor}"
+								Offset="0.5"/>
+						<GradientStop Color="{StaticResource WindowBackgroundColor}"
+								Offset="0.9" />
+						<GradientStop Color="Transparent" Offset="1" />
+					</LinearGradientBrush>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<Style x:Key="AbilityValueStackPanelStyle" TargetType="StackPanel">
+			<Setter Property="Width" Value="Auto" />
+			<Setter Property="Height" Value="Auto" />
+			<Setter Property="Margin" Value="0,10,0,0" />
+			<Setter Property="Orientation" Value="Horizontal" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+		</Style>
+		<Style x:Key="AbilityValueBaseLabelStyle" TargetType="Label">
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="Foreground" Value="{StaticResource TextForeground}" />
+			<Setter Property="FontFamily" Value="{StaticResource HeaderTextFontFamily}" />
+			<Setter Property="FontSize" Value="{StaticResource  NormalTextFontSize1}" />
+		</Style>
+		<Style x:Key="AbilityValueCaptionLabelStyle"
+				TargetType="Label"
+				BasedOn="{StaticResource AbilityValueBaseLabelStyle}">
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="FontFamily" Value="{StaticResource HeaderTextFontFamily}" />
+			<Setter Property="FontSize" Value="{StaticResource HeaderTextFontSize2}" />
+			<Setter Property="Content" Value="Ability: " />
+		</Style>
+		<Style x:Key="AbilityValueLabelStyle"
+				TargetType="Label"
+				BasedOn="{StaticResource AbilityValueBaseLabelStyle}">
+			<Setter Property="Margin" Value="0,0.5,0,0" />
+			<Setter Property="FontFamily" Value="{StaticResource NormalTextFontFamily}" />
+			<Setter Property="FontSize" Value="{StaticResource HeaderTextFontSize1}" />
+		</Style>
+		<system:String x:Key="BuyingAbilityPositiveValueText">
+			you CAN BUY this!
+		</system:String>
+		<system:String x:Key="BuyingAbilityNegativeValueText">
+			you CAN NOT BUY this, sorry...
+		</system:String>
+		<system:String x:Key="BorrowingAbilityValueText">
+			you can borrow some money from him.
+		</system:String>
+
+		<BitmapImage x:Key="ActiveCloseImage"
+				UriSource="/BeATrueCowboy;component/Resources/Close.png" />
+		<BitmapImage x:Key="InactiveCloseImage"
+				UriSource="/BeATrueCowboy;component/Resources/CloseInactive.png" />
+		<BitmapImage x:Key="ActiveAddImage"
+				UriSource="/BeATrueCowboy;component/Resources/Add.png" />
+		<BitmapImage x:Key="InactiveAddImage"
+				UriSource="/BeATrueCowboy;component/Resources/AddInactive.png" />
+		<BitmapImage x:Key="ActiveSelectImage"
+				UriSource="/BeATrueCowboy;component/Resources/Select.png" />
+		<BitmapImage x:Key="InactiveNotSelectImage"
+				UriSource="/BeATrueCowboy;component/Resources/NotSelectInactive.png" />
+
+		<BitmapImage x:Key="BackgroundImage"
+				UriSource="/BeATrueCowboy;component/Resources/WildWest.jpg" />
+
+		<BitmapImage x:Key="GatherYourGangStepImage"
+				UriSource="/BeATrueCowboy;component/Resources/GatherYourGang.png" />
+		<BitmapImage x:Key="MakeYourOwnDecisionsImage"
+				UriSource="/BeATrueCowboy;component/Resources/Settings.png" />
+		<BitmapImage x:Key="VisitTheFarmImage"
+				UriSource="/BeATrueCowboy;component/Resources/VisitFarm.png" />
+		<BitmapImage x:Key="VisitTheIndianVillageImage"
+				UriSource="/BeATrueCowboy;component/Resources/VisitWigwam.png" />
+
+		<BitmapImage x:Key="CowboyProfileImage"
+				UriSource="/BeATrueCowboy;component/Resources/YouAreCowboy.png" />
+		<BitmapImage x:Key="HorseProfileImage"
+				UriSource="/BeATrueCowboy;component/Resources/YourDeadHorse.png" />
+		<BitmapImage x:Key="IndianProfileImage"
+				UriSource="/BeATrueCowboy;component/Resources/IndianFriend.png" />
+		<BitmapImage x:Key="CoyoteProfileImage"
+				UriSource="/BeATrueCowboy;component/Resources/Coyote.png" />
+
+		<BitmapImage x:Key="ActiveCowboyHatImage"
+				UriSource="/BeATrueCowboy;component/Resources/CowboyHat.png" />
+		<BitmapImage x:Key="InactiveCowboyHatImage"
+				UriSource="/BeATrueCowboy;component/Resources/CowboyHatInactive.png" />
+		<BitmapImage x:Key="ActiveBootsWithSpursImage"
+				UriSource="/BeATrueCowboy;component/Resources/BootsWithSpurs.png" />
+		<BitmapImage x:Key="InactiveBootsWithSpursImage"
+				UriSource="/BeATrueCowboy;component/Resources/BootsWithSpursInactive.png" />
+		<BitmapImage x:Key="ActiveUrbanBootsImage"
+				UriSource="/BeATrueCowboy;component/Resources/UrbanBoots.png" />
+		<BitmapImage x:Key="InactiveUrbanBootsImage"
+				UriSource="/BeATrueCowboy;component/Resources/UrbanBootsInactive.png" />
+		<BitmapImage x:Key="ActiveCowImage"
+				UriSource="/BeATrueCowboy;component/Resources/Cow.png" />
+		<BitmapImage x:Key="InactiveCowImage"
+				UriSource="/BeATrueCowboy;component/Resources/CowInactive.png" />
+		<BitmapImage x:Key="ActiveLonghornCowImage"
+				UriSource="/BeATrueCowboy;component/Resources/LonghornCow.png" />
+		<BitmapImage x:Key="InactiveLonghornCowImage"
+				UriSource="/BeATrueCowboy;component/Resources/LonghornCowInactive.png" />
+		<BitmapImage x:Key="ActiveRacehorseImage"
+				UriSource="/BeATrueCowboy;component/Resources/Racehorse.png" />
+		<BitmapImage x:Key="InactiveRacehorseImage"
+				UriSource="/BeATrueCowboy;component/Resources/RacehorseInactive.png" />
+		<BitmapImage x:Key="ActiveBloodstockImage"
+				UriSource="/BeATrueCowboy;component/Resources/Bloodstock.png" />
+		<BitmapImage x:Key="InactiveBloodstockImage"
+				UriSource="/BeATrueCowboy;component/Resources/BloodstockInactive.png" />
+		<BitmapImage x:Key="ActiveMrArgusEyedEagleImage"
+				UriSource="/BeATrueCowboy;component/Resources/MrArgusEyedEagle.png" />
+		<BitmapImage x:Key="InactiveMrArgusEyedEagleImage"
+				UriSource="/BeATrueCowboy;component/Resources/MrArgusEyedEagleInactive.png" />
+		<BitmapImage x:Key="ActiveMrPathfinderImage"
+				UriSource="/BeATrueCowboy;component/Resources/MrPathFinder.png" />
+		<BitmapImage x:Key="InactiveMrPathfinderImage"
+				UriSource="/BeATrueCowboy;component/Resources/MrPathFinderInactive.png" />
+
+		<system:Double x:Key="CloseImageDoubleSide">19</system:Double>
+		<Style x:Key="CloseImageStyle" TargetType="Image">
+			<Setter Property="Height" Value="{StaticResource CloseImageDoubleSide}" />
+			<Setter Property="Width" Value="{StaticResource CloseImageDoubleSide}" />
+			<Setter Property="Margin" Value="0,6,6.5,6" />
+			<Setter Property="HorizontalAlignment" Value="Right" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+		</Style>
+
+		<system:Int32 x:Key="TopToggleGroupIndex">1</system:Int32>
+		<Style x:Key="StepStackPanelStyle" TargetType="StackPanel">
+			<Setter Property="Width" Value="Auto" />
+			<Setter Property="Height" Value="Auto" />
+			<Setter Property="Orientation" Value="Vertical" />
+		</Style>
+		<Style x:Key="StepTitleTextBlockStyle" TargetType="TextBlock">
+			<Setter Property="Foreground" Value="{StaticResource TextForeground}" />
+			<Setter Property="FontFamily"
+					Value="{StaticResource HeaderTextFontFamily}" />
+			<Setter Property="FontSize"
+					Value="{StaticResource NormalTextFontSize1}" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+		</Style>
+		<Style x:Key="StepDescriptionTextBoxStyle" TargetType="TextBox">
+			<Setter Property="Foreground" Value="{StaticResource TextForeground}" />
+			<Setter Property="FontFamily"
+					Value="{StaticResource NormalTextFontFamily}" />
+			<Setter Property="FontSize"
+					Value="{StaticResource NormalTextFontSize1}" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="TextWrapping" Value="Wrap" />
+			<Setter Property="Focusable" Value="False" />
+			<Setter Property="IsTabStop" Value="False" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="Cursor" Value="Arrow" />
+			<Setter Property="Margin" Value="0,0,0,10" />
+		</Style>
+
+		<system:Int32 x:Key="UserProfieGroupIndex">2</system:Int32>
+		<Style x:Key="HumanProfileStyle" TargetType="controls:UserProfileControl">
+			<Setter Property="Margin" Value="0,3" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="DeleteProfileIsChecked" Value="False" />
+			<Setter Property="SelectedProfileGroupIndex"
+					Value="{StaticResource UserProfieGroupIndex}" />
+		</Style>
+		<Style x:Key="AnimalUserProfileStyle"
+				TargetType="controls:UserProfileControl"
+				BasedOn="{StaticResource HumanProfileStyle}">
+			<Setter Property="CanSelectProfile" Value="False" />
+		</Style>
+		<Style x:Key="AddMemberToggleStyle"
+				TargetType="controls:LabledToggleControl">
+			<Setter Property="Width" Value="Auto" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="Margin" Value="0,12,0,0" />
+		</Style>
+
+		<system:Int32 x:Key="BuyingAbilityGroupIndex">3</system:Int32>
+		<system:Int32 x:Key="AvailableAbilityGroupIndex">4</system:Int32>
+		<system:Int32 x:Key="NotAvailableAbilityGroupIndex">5</system:Int32>
+		<Style x:Key="AbilityToggleStyle"
+				TargetType="controls:LabledToggleControl">
+			<Setter Property="Width" Value="Auto" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="Margin" Value="15,12,0,0" />
+		</Style>
+		<Style x:Key="AvailableOrNotAbilityToggleStyle"
+				TargetType="controls:LabledToggleControl"
+				BasedOn="{StaticResource AbilityToggleStyle}">
+			<Setter Property="ActiveImageSource"
+					Value="{StaticResource ActiveSelectImage}" />
+			<Setter Property="InactiveImageSource"
+					Value="{StaticResource InactiveNotSelectImage}" />
+		</Style>
+
+		<system:Int32 x:Key="FarmGroupIndex">6</system:Int32>
+		<system:Int32 x:Key="IndianVillageGroupIndex">7</system:Int32>
+		<Style x:Key="SideToggleStyle" TargetType="controls:SideToggleControl">
+			<Setter Property="Width" Value="160" />
+			<Setter Property="Height" Value="75" />
+			<Setter Property="AlwaysShowActiveImageIfIsAvailable"
+					Value="False" />
+			<Setter Property="AlwaysShowInactiveImageIfIsNotAvailable"
+					Value="False" />
+		</Style>
+		<Style x:Key="FarmSideToggleStyle"
+				TargetType="controls:SideToggleControl"
+				BasedOn="{StaticResource SideToggleStyle}">
+			<Setter Property="GroupIndex" Value="{StaticResource FarmGroupIndex}" />
+		</Style>
+		<Style x:Key="IndianVillageSideToggleStyle"
+				TargetType="controls:SideToggleControl"
+				BasedOn="{StaticResource SideToggleStyle}">
+			<Setter Property="GroupIndex"
+					Value="{StaticResource IndianVillageGroupIndex}" />
+		</Style>
+
+	</Window.Resources>
+
+	<Grid>
+
+		<Border Style="{StaticResource WindowBorderWithBackgroundStyle}">
+
+			<Border.OpacityMask>
+				<VisualBrush>
+					<VisualBrush.Visual>
+						<Border
+								Width="{Binding ActualWidth,
+									RelativeSource={RelativeSource FindAncestor,
+									AncestorType=Border}}"
+								Height="{Binding ActualHeight,
+									RelativeSource={RelativeSource FindAncestor,
+									AncestorType=Border}}"
+								Style="{StaticResource WindowBorderMaskStyle}" />
+					</VisualBrush.Visual>
+				</VisualBrush>
+			</Border.OpacityMask>
+
+			<Grid>
+			
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"></RowDefinition>
+					<RowDefinition Height="Auto"></RowDefinition>
+					<RowDefinition></RowDefinition>
+				</Grid.RowDefinitions>
+
+				<Grid
+						Grid.Row="0"
+						Width="Auto"
+						Height="Auto"
+						MouseLeftButtonDown="OnTitleBarMouseLeftButtonDown">
+
+					<Grid.Background>
+						<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+							<GradientStop Color="#AA8D66" Offset="0.15"/>
+							<GradientStop Color="#C9A776" Offset="0.4"/>
+							<GradientStop Color="#D6B07E" Offset="0.55"/>
+							<GradientStop Color="{StaticResource WindowBackgroundColor}"
+									Offset="0.8"/>
+						</LinearGradientBrush>
+					</Grid.Background>
+
+					<TextBlock
+							HorizontalAlignment="Stretch" />
+
+					<TextBlock
+							Text="Be a True Cowboy"
+							Padding="0,5,0,5"
+							Margin="0"
+							HorizontalAlignment="Center"
+							FontFamily="{StaticResource NormalTextFontFamily}"
+							FontSize="{StaticResource HeaderTextFontSize2}" />
+
+					<Image
+							x:Name="ActiveCloseToggle"
+							Style="{StaticResource CloseImageStyle}"
+							Source="{StaticResource ActiveCloseImage}" />
+
+					<Image
+							x:Name="InactiveCloseToggle"
+							Style="{StaticResource CloseImageStyle}"
+							Source="{StaticResource InactiveCloseImage}" />
+
+					<controls:SimpleToggleControl
+							x:Name="CloseToggle"
+							IsAvailable="True"
+							Checked="OnCloseToggleChecked"
+							ActiveStateUIElement ="{Binding ElementName=ActiveCloseToggle}"
+							InactiveStateUIElement ="{Binding ElementName=InactiveCloseToggle}" />
+				
+				</Grid>
+
+				<StackPanel
+					Grid.Row="1"
+					Margin="0,5,0,0">
+
+					<StackPanel.Background>
+						<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+							<GradientStop Color="{StaticResource WindowBackgroundColor}"
+									Offset="0"/>
+							<GradientStop Color="#D1AD7B" Offset="0.1"/>
+							<GradientStop Color="#C9A57E" Offset="0.3"/>
+							<GradientStop Color="#C9A57E" Offset="0.35"/>
+							<GradientStop Color="#D1AD7B" Offset="0.6"/>
+							<GradientStop Color="{StaticResource WindowBackgroundColor}"
+									Offset="0.8"/>
+						</LinearGradientBrush>
+					</StackPanel.Background>
+
+					<StackPanel
+							Orientation="Horizontal"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Top"
+							Height="73"
+							Panel.ZIndex="0">
+
+						<controls:LowerBandToggleControl
+								x:Name="GatherYourGangStepTopToggle"
+								AssociatedUIElement="{Binding
+									ElementName=GatherYourGangStepBorder}"
+								ImageSource="{StaticResource GatherYourGangStepImage}"
+								LabelContent="Gather Your Gang"
+								IsChecked="True"
+								GroupIndex="{StaticResource TopToggleGroupIndex}"/>
+
+						<controls:LowerBandToggleControl
+								x:Name="MakeYourOwnDecisionsStepTopToggle"
+								AssociatedUIElement="{Binding
+									ElementName=MakeYourOwnDecisionsStepBorder}"
+								ImageSource="{StaticResource MakeYourOwnDecisionsImage}"
+								LabelContent="Make Your Own Decisions"
+								GroupIndex="{StaticResource TopToggleGroupIndex}"/>
+
+						<controls:LowerBandToggleControl
+								x:Name="VisitTheFarmStepTopToggle"
+								AssociatedUIElement="{Binding
+									ElementName=VisitTheFarmStepGrid}"
+								ImageSource="{StaticResource VisitTheFarmImage}"
+								LabelContent="Visit the Farm"
+								GroupIndex="{StaticResource TopToggleGroupIndex}"/>
+
+						<controls:LowerBandToggleControl
+								x:Name="VisitTheIndianVillageStepTopToggle"
+								AssociatedUIElement="{Binding
+									ElementName=VisitTheIndianVillageStepGrid}"
+								ImageSource="{StaticResource VisitTheIndianVillageImage}"
+								LabelContent="Visit the Village"
+								GroupIndex="{StaticResource TopToggleGroupIndex}"/>
+
+					</StackPanel>
+						
+					<Separator
+						Background="{StaticResource SeperatorBrush}"
+						Margin="0,-1,0,0"
+						Height="1"
+						Panel.ZIndex="-1"/>
+				</StackPanel>
+
+				<Grid Grid.Row="2">
+
+					<Grid.Background>
+						<ImageBrush ImageSource="{StaticResource BackgroundImage}"/>
+					</Grid.Background>
+
+					<Border
+							x:Name="GatherYourGangStepBorder"
+							Visibility="Visible"
+							Style="{StaticResource StepBorderStyle}">
+
+						<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+							<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+								Gather Your Gang
+							</TextBlock>
+
+							<TextBox
+									Style="{StaticResource StepDescriptionTextBoxStyle}" >
+								You are the cowboy.
+								Add some new members to your new gang.
+								If your don't like someone of them, delete him.
+								You can't remove yourself because you are the main character.
+								Also your horse was stolen last week,
+								so you can't remove it because you still searching it.
+								Choose the leader of your gang.
+								Remember that only a human could be the leader, not an animal.
+							</TextBox>
+
+							<controls:UserProfileControl
+									x:Name="CowboyProfile"
+									IconImageSource="{StaticResource CowboyProfileImage}"
+									NameLabelContent="I am a cowboy"
+									NicknameLabelContent="TheTrueCowboy"
+									SelectedProfileIsChecked="True"
+									CanDeleteProfile="False"
+									Style="{StaticResource HumanProfileStyle}"/>
+
+							<controls:UserProfileControl
+									x:Name="HorseProfile"
+									IconImageSource="{StaticResource HorseProfileImage}"
+									NameLabelContent="Cowboy's stolen horse"
+									NicknameLabelContent="TheBestHorseForever"
+									CanDeleteProfile="False"
+									Style="{StaticResource AnimalUserProfileStyle}"/>
+
+							<controls:UserProfileControl
+									x:Name="IndianProfile"
+									IconImageSource="{StaticResource IndianProfileImage}"
+									NameLabelContent="The old indian chief"
+									NicknameLabelContent="TheBestFriendOfTheCoyboy"
+									Visibility="Collapsed"
+									DeleteProfileToggleChecked="OnDeleteIndianProfileToggleChecked"
+									Style="{StaticResource HumanProfileStyle}"/>
+
+							<controls:UserProfileControl
+									x:Name="CoyoteProfile"
+									IconImageSource="{StaticResource CoyoteProfileImage}"
+									NameLabelContent="Smart Coyote"
+									NicknameLabelContent="ThePrairieWolf"
+									SelectedProfileIsChecked="False"
+									CanDeleteProfile="True"
+									Visibility="Collapsed"
+									DeleteProfileToggleChecked="OnCoyoteIndianProfileToggleChecked"
+									Style="{StaticResource AnimalUserProfileStyle}"/>
+
+							<controls:LabledToggleControl
+									x:Name="AddMemberToggle"
+									IsChecked="False"
+									LabelContent="Add a new member to your new gang"
+									ActiveImageSource="{StaticResource ActiveAddImage}"
+									InactiveImageSource="{StaticResource InactiveAddImage}"
+									Style="{StaticResource AddMemberToggleStyle}"
+									Checked="OnAddMemberToggleChecked"/>
+						</StackPanel>
+
+					</Border>
+
+					<Border
+							x:Name="MakeYourOwnDecisionsStepBorder"
+							Visibility="Collapsed"
+							Style="{StaticResource StepBorderStyle}">
+
+						<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+							<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+								Make Your Own Decisions
+							</TextBlock>
+
+							<TextBox
+									Style="{StaticResource StepDescriptionTextBoxStyle}" >
+								Hey, cowboy!
+								Unfortunately you lost some money in the saloon yesterday.
+								So today you can buy goods only from one of two categories:
+								new leather boots or domestic animals.
+								But you still can proud of your perfect hat.
+								And you can take some borrowed from the Indians.
+								Go ahead now! Visit the farm and the indian village.
+							</TextBox>
+
+							<controls:LabledToggleControl
+									x:Name="BootsToggle"
+									IsChecked="True"
+									LabelContent
+						="Make ability to buy new leather boots, but not domestic animals"
+									ActiveImageSource="{StaticResource ActiveUrbanBootsImage}"
+									InactiveImageSource="{StaticResource InactiveUrbanBootsImage}"
+									Style="{StaticResource AbilityToggleStyle}"
+									GroupIndex="{StaticResource BuyingAbilityGroupIndex}"
+									Checked="OnBootsToggleChecked"/>
+							<controls:LabledToggleControl
+									x:Name="DomesticAnimalsToggle"
+									IsChecked="False"
+									LabelContent
+						="Make ability to buy domestic animals, but not new leather boots"
+									ActiveImageSource="{StaticResource ActiveBloodstockImage}"
+									InactiveImageSource
+										="{StaticResource InactiveBloodstockImage}"
+									Style="{StaticResource AbilityToggleStyle}"
+									GroupIndex="{StaticResource BuyingAbilityGroupIndex}"
+									Checked="OnDomesticAnimalsToggleChecked"/>
+
+							<Separator Style="{StaticResource DecisionsSeparator}" />
+
+							<controls:LabledToggleControl
+									x:Name="LightIconsForAvailableAbilitiesToggle"
+									IsChecked="True"
+									LabelContent
+										="Always show light icons for available abilities"
+									Style="{StaticResource AvailableOrNotAbilityToggleStyle}"
+									GroupIndex="{StaticResource AvailableAbilityGroupIndex}"
+									Checked="OnLightIconsForAvailableAbilitiesToggleChecked"/>
+							<controls:LabledToggleControl
+									x:Name="ChangingIconsForAvailableAbilitiesToggle"
+									IsChecked="False"
+									LabelContent
+										="Just selected available abilities have light icons"
+									Style="{StaticResource AvailableOrNotAbilityToggleStyle}"
+									GroupIndex="{StaticResource AvailableAbilityGroupIndex}"
+									Checked="OnChangingIconsForAvailableAbilitiesToggleChecked"/>
+
+							<Separator Style="{StaticResource DecisionsSeparator}" />
+
+							<controls:LabledToggleControl
+									x:Name="DarkIconsForNotAvailableAbilitiesToggle"
+									IsChecked="True"
+									LabelContent
+										="Always show darck icons for not available abilities"
+									Style="{StaticResource AvailableOrNotAbilityToggleStyle}"
+									GroupIndex="{StaticResource NotAvailableAbilityGroupIndex}"
+								Checked="OnDarkIconsForNotAvailableAbilitiesToggleChecked"/>
+							<controls:LabledToggleControl
+									x:Name="ChangIconsForNotAvailableAbilitiesToggle"
+									IsChecked="False"
+									LabelContent
+										="Just not selected not available abilities have dark icons"
+									Style="{StaticResource AvailableOrNotAbilityToggleStyle}"
+									GroupIndex="{StaticResource NotAvailableAbilityGroupIndex}"
+								Checked="OnChangIconsForNotAvailableAbilitiesToggleChecked"/>
+
+						</StackPanel>
+
+					</Border>
+
+					<Grid
+							x:Name="VisitTheFarmStepGrid"
+							Visibility="Collapsed">
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+
+						<StackPanel
+								Grid.Column="0"
+								Style="{StaticResource StepStackPanelStyle}">
+
+							<controls:SideToggleControl
+									x:Name="HolsteinFriesianToggle"
+									AssociatedUIElement="{Binding
+										ElementName=HolsteinFriesianAbilityBorder}"
+									ActiveImageSource="{StaticResource ActiveCowImage}"
+									InactiveImageSource="{StaticResource InactiveCowImage}"
+									LabelContent="Holstein Friesian"
+									IsChecked="True"
+									Style="{StaticResource FarmSideToggleStyle}" />
+
+							<controls:SideToggleControl
+									x:Name="TexasLonghornToggle"
+									AssociatedUIElement="{Binding
+										ElementName=TexasLonghornAbilityBorder}"
+									ActiveImageSource="{StaticResource ActiveLonghornCowImage}"
+									InactiveImageSource
+										="{StaticResource InactiveLonghornCowImage}"
+									LabelContent="Texas Longhorn"
+									Style="{StaticResource FarmSideToggleStyle}" />
+
+							<controls:SideToggleControl
+									x:Name="FarmerBootsToggle"
+									AssociatedUIElement="{Binding
+										ElementName=FarmerBootsAbilityBorder}"
+									ActiveImageSource="{StaticResource ActiveUrbanBootsImage}"
+									InactiveImageSource
+										="{StaticResource InactiveUrbanBootsImage}"
+									LabelContent="Farmer Boots"
+									Style="{StaticResource FarmSideToggleStyle}" />
+
+							<controls:SideToggleControl
+									x:Name="RaceHorse"
+									AssociatedUIElement="{Binding
+										ElementName=RaceHorseAbilityBorder}"
+									ActiveImageSource="{StaticResource ActiveRacehorseImage}"
+									InactiveImageSource
+										="{StaticResource InactiveRacehorseImage}"
+									LabelContent="Race Horse"
+									Style="{StaticResource FarmSideToggleStyle}" />
+							
+							<controls:SideToggleControl
+									x:Name="CowboyHat"
+									AssociatedUIElement="{Binding
+										ElementName=CowboyHatAbilityBorder}"
+									ActiveImageSource="{StaticResource ActiveCowboyHatImage}"
+									InactiveImageSource
+										="{StaticResource InactiveCowboyHatImage}"
+									LabelContent="Cowboy Hat"
+									Style="{StaticResource FarmSideToggleStyle}" />
+
+						</StackPanel>
+
+						<Border
+								x:Name="HolsteinFriesianAbilityBorder"
+								Grid.Column="1"
+								Visibility="Visible"
+								Style="{StaticResource AbilityBorderStyle}">
+
+							<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+								<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+									Holstein Friesians
+								</TextBlock>
+
+								<TextBox
+										Style="{StaticResource StepDescriptionTextBoxStyle}" >
+									Holstein Friesians are a breed of dairy cattle originating
+									from the Dutch provinces. They are known as the world's
+									highest-production dairy animals.
+								</TextBox>
+
+								<StackPanel Style
+										="{StaticResource AbilityValueStackPanelStyle}" >
+									<Label Style
+											="{StaticResource AbilityValueCaptionLabelStyle}" />
+									<Label
+											x:Name="HolsteinFriesianBuyingAbilityValue"
+											Style="{StaticResource AbilityValueLabelStyle}"
+											Content
+												="{StaticResource BuyingAbilityNegativeValueText}" />
+								</StackPanel>
+
+							</StackPanel>
+
+						</Border>
+
+						<Border
+								x:Name="TexasLonghornAbilityBorder"
+								Grid.Column="1"
+								Visibility="Collapsed"
+								Style="{StaticResource AbilityBorderStyle}">
+
+							<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+								<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+									Texas Longhorns
+								</TextBlock>
+
+								<TextBox
+										Style="{StaticResource StepDescriptionTextBoxStyle}" >
+									The Texas Longhorn is a breed of cattle
+									known for its characteristic horns.
+								</TextBox>
+
+								<StackPanel Style
+										="{StaticResource AbilityValueStackPanelStyle}" >
+									<Label Style
+											="{StaticResource AbilityValueCaptionLabelStyle}" />
+									<Label
+											x:Name="TexasLonghornBuyingAbilityValue"
+											Style="{StaticResource AbilityValueLabelStyle}"
+											Content
+												="{StaticResource BuyingAbilityNegativeValueText}" />
+								</StackPanel>
+
+							</StackPanel>
+
+						</Border>
+
+						<Border
+								x:Name="FarmerBootsAbilityBorder"
+								Grid.Column="1"
+								Visibility="Collapsed"
+								Style="{StaticResource AbilityBorderStyle}">
+
+							<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+								<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+									Farmer Boots
+								</TextBlock>
+
+								<StackPanel Style
+										="{StaticResource AbilityValueStackPanelStyle}" >
+									<Label Style
+											="{StaticResource AbilityValueCaptionLabelStyle}" />
+									<Label
+											x:Name="FarmerBootBuyingAbilityValue"
+											Style="{StaticResource AbilityValueLabelStyle}"
+											Content
+												="{StaticResource BuyingAbilityPositiveValueText}" />
+								</StackPanel>
+
+							</StackPanel>
+
+						</Border>
+
+						<Border
+								x:Name="RaceHorseAbilityBorder"
+								Grid.Column="1"
+								Visibility="Collapsed"
+								Style="{StaticResource AbilityBorderStyle}">
+
+							<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+								<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+									Race Horses
+								</TextBlock>
+
+								<TextBox
+										Style="{StaticResource StepDescriptionTextBoxStyle}" >
+									Horse racing is an equestrian performance sport,
+									typically involving two or more horses ridden
+									by jockeys or driven over a set distance for competition.
+								</TextBox>
+
+								<StackPanel Style
+										="{StaticResource AbilityValueStackPanelStyle}" >
+									<Label Style
+											="{StaticResource AbilityValueCaptionLabelStyle}" />
+									<Label
+											x:Name="RaceHorseBuyingAbilityValue"
+											Style="{StaticResource AbilityValueLabelStyle}"
+											Content
+												="{StaticResource BuyingAbilityNegativeValueText}" />
+								</StackPanel>
+
+							</StackPanel>
+
+						</Border>
+
+						<Border
+								x:Name="CowboyHatAbilityBorder"
+								Grid.Column="1"
+								Visibility="Collapsed"
+								Style="{StaticResource AbilityBorderStyle}">
+
+							<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+								<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+									Cowboy Hats
+								</TextBlock>
+
+								<StackPanel Style
+										="{StaticResource AbilityValueStackPanelStyle}" >
+									<Label Style
+											="{StaticResource AbilityValueCaptionLabelStyle}" />
+									<Label
+											Style="{StaticResource AbilityValueLabelStyle}"
+											Content
+												="{StaticResource BuyingAbilityPositiveValueText}" />
+								</StackPanel>
+
+							</StackPanel>
+
+						</Border>
+
+					</Grid>
+
+					<Grid
+							x:Name="VisitTheIndianVillageStepGrid"
+							Visibility="Collapsed">
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+
+						<StackPanel
+								Grid.Column="0"
+								Style="{StaticResource StepStackPanelStyle}">
+
+							<controls:SideToggleControl
+									x:Name="MrArgusEyedEagleToggle"
+									AssociatedUIElement="{Binding
+										ElementName=MrArgusEyedEagleAbilityBorder}"
+									ActiveImageSource
+										="{StaticResource ActiveMrArgusEyedEagleImage}"
+									InactiveImageSource
+										="{StaticResource InactiveMrArgusEyedEagleImage}"
+									LabelContent="Mr. Argus-Eyed Eagle"
+									LabelIsTight="True"
+									IsChecked="True"
+									Style="{StaticResource IndianVillageSideToggleStyle}" />
+
+							<controls:SideToggleControl
+									x:Name="MrPathfinder"
+									AssociatedUIElement="{Binding
+										ElementName=MrPathfinderAbilityBorder}"
+									ActiveImageSource
+										="{StaticResource ActiveMrPathfinderImage}"
+									InactiveImageSource
+										="{StaticResource InactiveMrPathfinderImage}"
+									LabelContent="Mr. Pathfinder"
+									Style="{StaticResource IndianVillageSideToggleStyle}" />
+
+							<controls:SideToggleControl
+									x:Name="Trotter"
+									AssociatedUIElement="{Binding
+										ElementName=TrotterAbilityBorder}"
+									ActiveImageSource
+										="{StaticResource ActiveBloodstockImage}"
+									InactiveImageSource
+										="{StaticResource InactiveBloodstockImage}"
+									LabelContent="Trotter"
+									Style="{StaticResource IndianVillageSideToggleStyle}" />
+
+							<controls:SideToggleControl
+									x:Name="BootsWithSpurs"
+									AssociatedUIElement="{Binding
+										ElementName=BootsWithSpursAbilityBorder}"
+									ActiveImageSource
+										="{StaticResource ActiveBootsWithSpursImage}"
+									InactiveImageSource
+										="{StaticResource InactiveBootsWithSpursImage}"
+									LabelContent="Boots with Spurs"
+									Style="{StaticResource IndianVillageSideToggleStyle}" />
+
+						</StackPanel>
+
+						<Border
+								x:Name="MrArgusEyedEagleAbilityBorder"
+								Grid.Column="1"
+								Visibility="Visible"
+								Style="{StaticResource AbilityBorderStyle}">
+
+							<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+								<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+									Mr. Argus-Eyed Eagle
+								</TextBlock>
+
+								<StackPanel Style
+										="{StaticResource AbilityValueStackPanelStyle}" >
+									<Label Style
+											="{StaticResource AbilityValueCaptionLabelStyle}" />
+									<Label
+											Style="{StaticResource AbilityValueLabelStyle}"
+											Content
+												="{StaticResource BorrowingAbilityValueText}" />
+								</StackPanel>
+
+							</StackPanel>
+
+						</Border>
+
+						<Border
+								x:Name="MrPathfinderAbilityBorder"
+								Grid.Column="1"
+								Visibility="Collapsed"
+								Style="{StaticResource AbilityBorderStyle}">
+
+							<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+								<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+									Mr. Pathfinder
+								</TextBlock>
+
+								<StackPanel Style
+										="{StaticResource AbilityValueStackPanelStyle}" >
+									<Label Style
+											="{StaticResource AbilityValueCaptionLabelStyle}" />
+									<Label
+											Style="{StaticResource AbilityValueLabelStyle}"
+											Content
+												="{StaticResource BorrowingAbilityValueText}" />
+								</StackPanel>
+
+							</StackPanel>
+
+						</Border>
+
+						<Border
+								x:Name="TrotterAbilityBorder"
+								Grid.Column="1"
+								Visibility="Collapsed"
+								Style="{StaticResource AbilityBorderStyle}">
+
+							<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+								<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+									Trotters
+								</TextBlock>
+
+								<TextBox
+										Style="{StaticResource StepDescriptionTextBoxStyle}" >
+									If you've ridden horses, you're familiar with the trot,
+									or the jog as it's called in Western riding.
+									When a horse trots, he moves diagonally paired legs
+									simultaneously. That means he's moving his back left
+									leg at the same time he's moving his right front leg,
+									and his front left leg in unison with the rear right leg.
+									A trotting racehorse performs this gait at high speed.
+									Some trotters wear trotting hopples, simple front leg loops,
+									to aid in keeping the gait.
+								</TextBox>
+
+								<StackPanel Style
+										="{StaticResource AbilityValueStackPanelStyle}" >
+									<Label Style
+											="{StaticResource AbilityValueCaptionLabelStyle}" />
+									<Label
+											x:Name="TrotterBuyingAbilityValue"
+											Style="{StaticResource AbilityValueLabelStyle}"
+											Content
+												="{StaticResource BuyingAbilityNegativeValueText}" />
+								</StackPanel>
+
+							</StackPanel>
+
+						</Border>
+
+						<Border
+								x:Name="BootsWithSpursAbilityBorder"
+								Grid.Column="1"
+								Visibility="Collapsed"
+								Style="{StaticResource AbilityBorderStyle}">
+
+							<StackPanel Style="{StaticResource StepStackPanelStyle}">
+
+								<TextBlock Style="{StaticResource StepTitleTextBlockStyle}">
+									Boots With Spurs
+								</TextBlock>
+
+								<StackPanel Style
+										="{StaticResource AbilityValueStackPanelStyle}" >
+									<Label Style
+											="{StaticResource AbilityValueCaptionLabelStyle}" />
+									<Label
+											x:Name="BootsWithSpursBuyingAbilityValue"
+											Style="{StaticResource AbilityValueLabelStyle}"
+											Content
+												="{StaticResource BuyingAbilityPositiveValueText}" />
+								</StackPanel>
+
+							</StackPanel>
+
+						</Border>
+
+					</Grid>
+
+				</Grid>
+
+			</Grid>
+		</Border>
+
+		<Border Style="{StaticResource WindowBorderWithOutlineStyle}" />
+	</Grid>
+</Window>

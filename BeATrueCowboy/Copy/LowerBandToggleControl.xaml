@@ -1,0 +1,137 @@
+﻿<UserControl x:Class="Controls.LowerBandToggleControl"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="clr-namespace:Controls"
+		xmlns:sysWin="clr-namespace:System.Windows;assembly=PresentationFramework"
+		xmlns:system="clr-namespace:System;assembly=mscorlib"
+		mc:Ignorable="d"
+		d:DesignHeight="61" d:DesignWidth="63">
+
+	<UserControl.Resources>
+
+		<system:Double x:Key="ImgSide">32</system:Double>
+
+		<Style x:Key="HitAreaImgStyle" TargetType="Image">
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="Width" Value="{StaticResource ImgSide}" />
+			<Setter Property="Height" Value="{StaticResource ImgSide}" />
+			<Setter Property="Margin" Value="0,8,0,0" />
+		</Style>
+
+		<Style x:Key="HitAreaLblStyle" TargetType="Label">
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="FontSize" Value="11" />
+			<Setter Property="Margin" Value="0,0.5,0,0" />
+			<Setter Property="Padding" Value="0" />
+		</Style>
+		<Style x:Key="HitAreaTightLblStyle" TargetType="Label">
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="FontSize" Value="10" />
+			<Setter Property="Margin" Value="0,0,0,0" />
+			<Setter Property="Padding" Value="0" />
+		</Style>
+
+		<system:Double x:Key="DoubleWidth">63</system:Double>
+		<sysWin:GridLength x:Key="GridLengthWidth">63</sysWin:GridLength >
+
+		<system:Double x:Key="WithHitAreaHeight">61</system:Double>
+		<system:Double x:Key="HitAreaWithoutPaddingWidth">45</system:Double>
+
+		<system:Double x:Key="HitAreaDoubleHeight">59</system:Double>
+		<sysWin:GridLength x:Key="HitAreaGridLengthHeight">59</sysWin:GridLength>
+
+		<system:Double x:Key="DoubleHeight">2</system:Double>
+		<sysWin:GridLength x:Key="GridLengthHeight">2</sysWin:GridLength>
+
+		<ControlTemplate x:Key="HitAreaTemplate"
+				TargetType="local:LabeledImageDataControl">
+			
+			<StackPanel
+				Width="Auto"
+				Height="{StaticResource HitAreaDoubleHeight}"
+				HorizontalAlignment="Center"
+				Orientation="Vertical"
+				Margin="0" >
+
+				<StackPanel
+						x:Name="HitArea"
+						Width="Auto"
+						Height="{StaticResource HitAreaDoubleHeight}"
+						HorizontalAlignment="Center"
+						Orientation="Vertical"
+						Margin="9,0,9,0">
+					<Image Style="{TemplateBinding ImageStyle}"
+									Source="{TemplateBinding ImageSource}" />
+					<Label Style="{TemplateBinding LabelStyle}"
+									Content="{TemplateBinding LabelContent}"/>
+				</StackPanel>
+
+			</StackPanel>
+			
+		</ControlTemplate>
+
+		<Style x:Key="LowerBandToggleStyle" TargetType="Canvas">
+			<Setter Property="Width" Value="Auto"/>
+			<Setter Property="Height" Value="{StaticResource DoubleHeight}"/>
+			<Setter Property="Margin" Value="0"/>
+		</Style>
+
+	</UserControl.Resources>
+
+	<Grid
+		Width="Auto"
+		Height="{StaticResource WithHitAreaHeight}"
+		Margin="0">
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="{StaticResource HitAreaGridLengthHeight}"/>
+			<RowDefinition Height="{StaticResource GridLengthHeight}"/>
+		</Grid.RowDefinitions>
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+
+		<local:LabeledImageDataControl
+			x:Name="HitArea"
+			Grid.Row="0"
+			Grid.Column="0"
+			ImageStyle="{StaticResource HitAreaImgStyle}"
+			LabelStyle="{StaticResource HitAreaLblStyle}"
+			Template="{StaticResource HitAreaTemplate}"/>
+			<!--
+			ImageSource
+			LabelStyle -> LabelIsTight
+			LabelContent
+			-->
+
+		<Canvas
+			x:Name="ActiveToggle"
+			Grid.Row="1"
+			Grid.Column="0"
+			Style="{StaticResource LowerBandToggleStyle}"
+			Background="#4e94fe"/>
+
+		<Canvas
+			x:Name="InactiveToggle"
+			Grid.Row="1"
+			Grid.Column="0"
+			Style="{StaticResource LowerBandToggleStyle}"/>
+
+		<local:SimpleToggle
+			x:Name="LowerBandToggle"
+			ActiveStateUIElement ="{Binding ElementName=ActiveToggle}"
+			InactiveStateUIElement ="{Binding ElementName=InactiveToggle}"
+			AdditionalHitAreaUIElement="{Binding ElementName=HitArea}"
+			Checked="OnSimpleToggleChecked"/>
+			<!--
+			GroupIndex
+			IsChecked
+			AssociatedUIElement
+			-->
+
+	</Grid>
+
+</UserControl>
